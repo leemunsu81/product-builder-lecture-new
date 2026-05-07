@@ -1,29 +1,86 @@
+:root {
+    --bg-gradient: linear-gradient(to right, #6a11cb, #2575fc);
+    --container-bg: #ffffff;
+    --text-color: #333333;
+    --title-color: #2575fc;
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --btn-bg: #2575fc;
+    --btn-hover: #6a11cb;
+    --btn-shadow: rgba(37, 117, 252, 0.5);
+    --btn-hover-shadow: rgba(106, 17, 203, 0.5);
+    --separator-color: #aaaaaa;
+    --bonus-label-color: #888888;
+}
+
+body.dark-mode {
+    --bg-gradient: linear-gradient(to right, #1a1a2e, #16213e);
+    --container-bg: #1e1e2e;
+    --text-color: #e0e0e0;
+    --title-color: #7aa2f7;
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    --btn-bg: #7aa2f7;
+    --btn-hover: #bb9af7;
+    --btn-shadow: rgba(122, 162, 247, 0.4);
+    --btn-hover-shadow: rgba(187, 154, 247, 0.4);
+    --separator-color: #555555;
+    --bonus-label-color: #aaaaaa;
+}
+
 body {
     font-family: sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    background: var(--bg-gradient);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    transition: background 0.3s;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    font-size: 1.3rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: border-color 0.3s, background 0.3s;
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
 }
 
 .container {
     text-align: center;
-    background: white;
+    background: var(--container-bg);
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
+    transition: background 0.3s, box-shadow 0.3s;
 }
 
 h1 {
-    color: #2575fc;
+    color: var(--title-color);
+}
+
+p {
+    color: var(--text-color);
 }
 
 #generate-btn {
-    background-color: #2575fc;
+    background-color: var(--btn-bg);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -31,19 +88,21 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.5);
+    box-shadow: 0 4px 15px var(--btn-shadow);
 }
 
 #generate-btn:hover {
-    background-color: #6a11cb;
-    box-shadow: 0 6px 20px rgba(106, 17, 203, 0.5);
+    background-color: var(--btn-hover);
+    box-shadow: 0 6px 20px var(--btn-hover-shadow);
 }
 
 .lotto-numbers {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
     margin-top: 2rem;
+    flex-wrap: wrap;
 }
 
 .lotto-ball {
@@ -53,8 +112,44 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.lotto-ball:hover {
+    transform: scale(1.1);
+}
+
+.separator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--separator-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.bonus-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.bonus-label {
+    font-size: 0.65rem;
+    font-weight: bold;
+    color: var(--bonus-label-color);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.lotto-ball.bonus {
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.2);
 }
