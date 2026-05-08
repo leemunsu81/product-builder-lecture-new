@@ -363,6 +363,33 @@ h1 {
     font-weight: 500;
 }
 
+.app-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(109, 40, 217, 0.25);
+}
+.app-link:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(109, 40, 217, 0.35); }
+
+.app-link-emoji { font-size: 1.8rem; flex-shrink: 0; }
+
+.app-link-text {
+    display: flex; flex-direction: column; gap: 0.2rem;
+}
+.app-link-title {
+    font-size: 0.95rem; font-weight: 800;
+    color: #ffffff;
+}
+.app-link-desc {
+    font-size: 0.8rem; color: rgba(255,255,255,0.75);
+}
+
 .comments-section {
     margin-top: 1.5rem;
     border-top: 1px solid var(--history-border);
