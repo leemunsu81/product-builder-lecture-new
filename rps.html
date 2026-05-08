@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 얼굴은 가위? 바위? 보?</title>
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+            --container-bg: #ffffff;
+            --text: #1f2937;
+            --sub: #6b7280;
+            --card-bg: #f5f3ff;
+            --card-border: #ddd6fe;
+            --bar-bg: #e5e7eb;
+            --shadow: 0 24px 48px rgba(79, 70, 229, 0.18);
+            --btn-shadow: rgba(109, 40, 217, 0.4);
+        }
+        body.dark {
+            --bg: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --container-bg: #1e1b4b;
+            --text: #f1f5f9;
+            --sub: #94a3b8;
+            --card-bg: #2e2a5e;
+            --card-border: #4338ca;
+            --bar-bg: #312e81;
+            --shadow: 0 24px 48px rgba(0,0,0,0.5);
+            --btn-shadow: rgba(129, 140, 248, 0.3);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 4rem 1rem 2rem;
+            transition: background 0.4s;
+        }
+
+        .top-controls {
+            position: fixed;
+            top: 1rem; right: 1rem;
+            display: flex; gap: 0.5rem;
+            z-index: 100;
+        }
+        .ctrl-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            font-size: 1rem; font-weight: 700;
+            width: 2.8rem; height: 2.8rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+            font-family: inherit;
+        }
+        .ctrl-btn:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .container {
+            background: var(--container-bg);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem 2rem;
+            width: 100%; max-width: 480px;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        /* ── Idle screen ── */
+        .idle-screen { text-align: center; }
+        .hero-emojis { font-size: 3.5rem; margin-bottom: 1rem; display: block; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+        h1 { color: #6d28d9; font-size: 1.6rem; margin-bottom: 0.5rem; line-height: 1.3; }
+        body.dark h1 { color: #a78bfa; }
+        .subtitle { color: var(--sub); font-size: 0.95rem; margin-bottom: 2rem; }
+
+        .start-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #6d28d9, #db2777);
+            color: white; border: none; border-radius: 16px;
+            font-size: 1.15rem; font-weight: 800;
+            cursor: pointer; letter-spacing: 0.03em;
+            box-shadow: 0 6px 24px var(--btn-shadow);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .start-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px var(--btn-shadow); }
+        .start-btn:active { transform: translateY(0); }
+
+        /* ── Active screen ── */
+        .active-screen { display: flex; flex-direction: column; align-items: center; gap: 1.4rem; }
+
+        .screen-title { font-size: 1.1rem; font-weight: 700; color: var(--text); text-align: center; }
+
+        /* Webcam ring */
+        .webcam-wrapper {
+            position: relative;
+            width: 220px; height: 220px;
+        }
+        .ring {
+            position: absolute; inset: -6px;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            background: linear-gradient(var(--container-bg), var(--container-bg)) padding-box,
+                        linear-gradient(135deg, #6d28d9, #db2777) border-box;
+            transition: background 0.4s;
+            z-index: 0;
+        }
+        .ring.scissors { background: linear-gradient(var(--container-bg), var(--container-bg)) padding-box, linear-gradient(135deg,#3b82f6,#06b6d4) border-box; }
+        .ring.rock     { background: linear-gradient(var(--container-bg), var(--container-bg)) padding-box, linear-gradient(135deg,#f97316,#ef4444) border-box; }
+        .ring.paper    { background: linear-gradient(var(--container-bg), var(--container-bg)) padding-box, linear-gradient(135deg,#10b981,#14b8a6) border-box; }
+
+        #webcam-container {
+            width: 220px; height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative; z-index: 1;
+        }
+        #webcam-container canvas { width: 220px !important; height: 220px !important; object-fit: cover; }
+
+        /* Result emoji badge */
+        .result-badge {
+            position: absolute;
+            bottom: -4px; right: -4px;
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: var(--container-bg);
+            border: 3px solid #a78bfa;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            z-index: 2;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Bars */
+        .bars { width: 100%; display: flex; flex-direction: column; gap: 0.7rem; }
+        .bar-row { display: flex; align-items: center; gap: 0.75rem; }
+        .bar-label {
+            width: 68px; font-size: 0.88rem; font-weight: 700;
+            color: var(--text); text-align: right; white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .bar-track {
+            flex: 1; height: 14px;
+            background: var(--bar-bg);
+            border-radius: 999px; overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%; border-radius: 999px;
+            transition: width 0.15s ease-out;
+            width: 0%;
+        }
+        .bar-fill.scissors { background: linear-gradient(90deg,#3b82f6,#06b6d4); }
+        .bar-fill.rock     { background: linear-gradient(90deg,#f97316,#ef4444); }
+        .bar-fill.paper    { background: linear-gradient(90deg,#10b981,#14b8a6); }
+        .bar-fill.generic  { background: linear-gradient(90deg,#8b5cf6,#d946ef); }
+        .bar-pct {
+            width: 38px; font-size: 0.82rem; font-weight: 700;
+            color: var(--sub); text-align: right; flex-shrink: 0;
+        }
+
+        /* Result card */
+        .result-card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.2rem 1.4rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .result-card.winner-scissors { border-color: #3b82f6; }
+        .result-card.winner-rock     { border-color: #ef4444; }
+        .result-card.winner-paper    { border-color: #10b981; }
+
+        .result-name { font-size: 1.5rem; font-weight: 800; color: #6d28d9; margin-bottom: 0.3rem; }
+        body.dark .result-name { color: #a78bfa; }
+        .result-msg  { font-size: 0.9rem; color: var(--sub); line-height: 1.5; }
+
+        .stop-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bar-bg);
+            color: var(--sub);
+            border: none; border-radius: 14px;
+            font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            font-family: inherit;
+        }
+        .stop-btn:hover { opacity: 0.75; }
+
+        .loading-txt { color: var(--sub); font-size: 0.9rem; animation: blink 1s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 480px) {
+            body { padding: 3.5rem 0.75rem 1.5rem; }
+            .container { padding: 1.8rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-controls">
+        <button class="ctrl-btn" id="lang-toggle">EN</button>
+        <button class="ctrl-btn" id="theme-toggle">🌙</button>
+    </div>
+
+    <div class="container">
+        <!-- Idle -->
+        <div class="idle-screen" id="idle-screen">
+            <span class="hero-emojis">✊ ✌️ 🖐️</span>
+            <h1 id="main-title">내 얼굴은<br>가위? 바위? 보?</h1>
+            <p class="subtitle" id="main-subtitle">AI 카메라로 당신의 인상을 분석해드립니다!</p>
+            <button class="start-btn" id="start-btn">📷 분석 시작하기</button>
+        </div>
+
+        <!-- Active -->
+        <div class="active-screen hidden" id="active-screen">
+            <p class="screen-title" id="screen-title">✨ 얼굴을 카메라에 맞춰주세요</p>
+
+            <div class="webcam-wrapper">
+                <div class="ring" id="ring"></div>
+                <div id="webcam-container"></div>
+                <div class="result-badge" id="result-badge">?</div>
+            </div>
+
+            <div class="loading-txt hidden" id="loading-txt">모델 불러오는 중...</div>
+
+            <div class="bars hidden" id="bars"></div>
+
+            <div class="result-card hidden" id="result-card">
+                <div class="result-name" id="result-name"></div>
+                <div class="result-msg"  id="result-msg"></div>
+            </div>
+
+            <button class="stop-btn" id="stop-btn">⏹ 중단하기</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script>
+        const MODEL_URL = './my_model/';
+
+        const PERSONALITIES = {
+            scissors: {
+                emoji: '✌️', colorClass: 'scissors',
+                ko: { name: '가위상 ✌️', msg: '날카롭고 영리한 인상이에요.\n분석력과 직관이 남다릅니다!' },
+                en: { name: 'Scissors Type ✌️', msg: 'Sharp and clever-looking.\nGreat analytical instincts!' },
+            },
+            rock: {
+                emoji: '🪨', colorClass: 'rock',
+                ko: { name: '바위상 🪨', msg: '듬직하고 강인한 인상이에요.\n신뢰감과 추진력이 넘칩니다!' },
+                en: { name: 'Rock Type 🪨', msg: 'Solid and powerful-looking.\nStrong and dependable vibes!' },
+            },
+            paper: {
+                emoji: '🖐️', colorClass: 'paper',
+                ko: { name: '보상 🖐️', msg: '부드럽고 포용력 있는 인상이에요.\n따뜻하고 개방적인 성격입니다!' },
+                en: { name: 'Paper Type 🖐️', msg: 'Open and warm-looking.\nWelcoming and flexible nature!' },
+            },
+        };
+
+        const UI = {
+            ko: {
+                mainTitle: '내 얼굴은<br>가위? 바위? 보?',
+                mainSubtitle: 'AI 카메라로 당신의 인상을 분석해드립니다!',
+                startBtn: '📷 분석 시작하기',
+                screenTitle: '✨ 얼굴을 카메라에 맞춰주세요',
+                loading: '모델 불러오는 중...',
+                stopBtn: '⏹ 중단하기',
+            },
+            en: {
+                mainTitle: 'Rock, Paper,<br>or Scissors Face?',
+                mainSubtitle: 'AI camera analysis of your facial vibe!',
+                startBtn: '📷 Start Analysis',
+                screenTitle: '✨ Position your face in the camera',
+                loading: 'Loading model...',
+                stopBtn: '⏹ Stop',
+            },
+        };
+
+        let lang = localStorage.getItem('lang') || 'ko';
+        let model, webcam, running = false;
+
+        /* ── Theme ── */
+        const themeBtn = document.getElementById('theme-toggle');
+        if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+        themeBtn.addEventListener('click', () => {
+            const d = document.body.classList.toggle('dark');
+            themeBtn.textContent = d ? '☀️' : '🌙';
+            localStorage.setItem('theme', d ? 'dark' : 'light');
+        });
+
+        /* ── Lang ── */
+        const langBtn = document.getElementById('lang-toggle');
+        function applyLang() {
+            const s = UI[lang];
+            document.documentElement.lang = lang;
+            langBtn.textContent = lang === 'ko' ? 'EN' : 'KO';
+            document.getElementById('main-title').innerHTML = s.mainTitle;
+            document.getElementById('main-subtitle').textContent = s.mainSubtitle;
+            document.getElementById('start-btn').textContent = s.startBtn;
+            document.getElementById('screen-title').textContent = s.screenTitle;
+            document.getElementById('loading-txt').textContent = s.loading;
+            document.getElementById('stop-btn').textContent = s.stopBtn;
+            if (lastResult) showResult(lastResult);
+        }
+        langBtn.addEventListener('click', () => { lang = lang === 'ko' ? 'en' : 'ko'; localStorage.setItem('lang', lang); applyLang(); });
+
+        /* ── Class normalization ── */
+        function normalizeClass(name) {
+            const n = name.toLowerCase();
+            if (n.includes('가위') || n.includes('scissors')) return 'scissors';
+            if (n.includes('바위') || n.includes('rock') || n.includes('주먹') || n.includes('fist')) return 'rock';
+            if (n.includes('보') || n.includes('paper') || n.includes('open')) return 'paper';
+            return null;
+        }
+
+        /* ── State ── */
+        let barEls = [];
+        let lastResult = null;
+
+        function buildBars(classes) {
+            const container = document.getElementById('bars');
+            container.innerHTML = '';
+            barEls = [];
+            classes.forEach((cls, i) => {
+                const key = normalizeClass(cls) || 'generic';
+                const p = PERSONALITIES[key];
+                const label = p ? (lang === 'ko' ? p.ko.name.split(' ')[0] : p.en.name.split(' ')[0]) : cls;
+                const row = document.createElement('div');
+                row.className = 'bar-row';
+                row.innerHTML = `
+                    <span class="bar-label">${p ? p.emoji : '🔷'} ${cls}</span>
+                    <div class="bar-track"><div class="bar-fill ${key}" id="fill-${i}" style="width:0%"></div></div>
+                    <span class="bar-pct" id="pct-${i}">0%</span>`;
+                container.appendChild(row);
+                barEls.push({ fill: `fill-${i}`, pct: `pct-${i}` });
+            });
+            container.classList.remove('hidden');
+        }
+
+        function showResult(prediction) {
+            lastResult = prediction;
+            const top = prediction.reduce((a, b) => a.probability > b.probability ? a : b);
+            const key = normalizeClass(top.className) || 'generic';
+            const p = PERSONALITIES[key];
+            const ring = document.getElementById('ring');
+            const badge = document.getElementById('result-badge');
+            const card = document.getElementById('result-card');
+
+            ring.className = 'ring ' + (key !== 'generic' ? key : '');
+            badge.textContent = p ? p.emoji : '🔷';
+
+            if (p) {
+                const info = p[lang];
+                document.getElementById('result-name').textContent = info.name;
+                document.getElementById('result-msg').textContent = info.msg;
+                card.className = 'result-card winner-' + key;
+                card.classList.remove('hidden');
+            }
+        }
+
+        /* ── Main loop ── */
+        async function predict() {
+            if (!running) return;
+            webcam.update();
+            const preds = await model.predict(webcam.canvas);
+            preds.forEach((p, i) => {
+                const pct = (p.probability * 100).toFixed(1);
+                document.getElementById(barEls[i].fill).style.width = pct + '%';
+                document.getElementById(barEls[i].pct).textContent = pct + '%';
+            });
+            showResult(preds);
+            requestAnimationFrame(predict);
+        }
+
+        /* ── Start ── */
+        document.getElementById('start-btn').addEventListener('click', async () => {
+            document.getElementById('idle-screen').classList.add('hidden');
+            document.getElementById('active-screen').classList.remove('hidden');
+            document.getElementById('loading-txt').classList.remove('hidden');
+
+            try {
+                model = await tmImage.load(MODEL_URL + 'model.json', MODEL_URL + 'metadata.json');
+                const classes = [];
+                for (let i = 0; i < model.getTotalClasses(); i++) classes.push(model.getClassLabels()[i]);
+
+                webcam = new tmImage.Webcam(220, 220, true);
+                await webcam.setup();
+                await webcam.play();
+                document.getElementById('webcam-container').appendChild(webcam.canvas);
+
+                document.getElementById('loading-txt').classList.add('hidden');
+                buildBars(classes);
+                running = true;
+                requestAnimationFrame(predict);
+            } catch (e) {
+                document.getElementById('loading-txt').textContent = '⚠️ 모델을 불러올 수 없습니다. my_model 폴더를 확인하세요.';
+                console.error(e);
+            }
+        });
+
+        /* ── Stop ── */
+        document.getElementById('stop-btn').addEventListener('click', () => {
+            running = false;
+            if (webcam) webcam.stop();
+            document.getElementById('active-screen').classList.add('hidden');
+            document.getElementById('idle-screen').classList.remove('hidden');
+            document.getElementById('webcam-container').innerHTML = '';
+            document.getElementById('bars').classList.add('hidden');
+            document.getElementById('result-card').classList.add('hidden');
+            document.getElementById('result-badge').textContent = '?';
+            document.getElementById('ring').className = 'ring';
+            lastResult = null;
+        });
+
+        applyLang();
+    </script>
+</body>
+</html>
