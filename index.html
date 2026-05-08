@@ -7,33 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="theme-toggle" class="theme-toggle" title="다크/라이트 모드 전환">🌙</button>
+    <div class="top-controls">
+        <button id="lang-toggle" class="ctrl-btn" title="Switch Language">EN</button>
+        <button id="theme-toggle" class="ctrl-btn" title="Toggle Theme">🌙</button>
+    </div>
 
     <div class="container">
-        <h1>🍽️ 오늘 저녁 뭐 먹지?</h1>
-        <p class="subtitle">고민 끝! 메뉴를 골라드릴게요</p>
+        <h1 data-i18n="title">🍽️ 오늘 저녁 뭐 먹지?</h1>
+        <p class="subtitle" data-i18n="subtitle">고민 끝! 메뉴를 골라드릴게요</p>
 
         <div class="filters">
             <div class="filter-group">
-                <span class="filter-label">카테고리</span>
+                <span class="filter-label" data-i18n="categoryLabel">카테고리</span>
                 <div class="filter-buttons" id="category-filters">
-                    <button class="filter-btn active" data-value="all">전체</button>
-                    <button class="filter-btn" data-value="korean">한식 🇰🇷</button>
-                    <button class="filter-btn" data-value="chinese">중식 🥢</button>
-                    <button class="filter-btn" data-value="japanese">일식 🍱</button>
-                    <button class="filter-btn" data-value="western">양식 🍝</button>
-                    <button class="filter-btn" data-value="snack">분식 🍢</button>
-                    <button class="filter-btn" data-value="chicken">치킨/피자 🍕</button>
+                    <button class="filter-btn active" data-value="all" data-i18n="cat.all">전체</button>
+                    <button class="filter-btn" data-value="korean" data-i18n="cat.korean">한식 🇰🇷</button>
+                    <button class="filter-btn" data-value="chinese" data-i18n="cat.chinese">중식 🥢</button>
+                    <button class="filter-btn" data-value="japanese" data-i18n="cat.japanese">일식 🍱</button>
+                    <button class="filter-btn" data-value="western" data-i18n="cat.western">양식 🍝</button>
+                    <button class="filter-btn" data-value="snack" data-i18n="cat.snack">분식 🍢</button>
+                    <button class="filter-btn" data-value="chicken" data-i18n="cat.chicken">치킨/피자 🍕</button>
                 </div>
             </div>
             <div class="filter-group">
-                <span class="filter-label">상황</span>
+                <span class="filter-label" data-i18n="situationLabel">상황</span>
                 <div class="filter-buttons" id="situation-filters">
-                    <button class="filter-btn active" data-value="all">전체</button>
-                    <button class="filter-btn" data-value="solo">혼밥 🧍</button>
-                    <button class="filter-btn" data-value="together">같이 먹기 👨‍👩‍👧</button>
-                    <button class="filter-btn" data-value="delivery">배달 🛵</button>
-                    <button class="filter-btn" data-value="dine-out">외식 🚶</button>
+                    <button class="filter-btn active" data-value="all" data-i18n="sit.all">전체</button>
+                    <button class="filter-btn" data-value="solo" data-i18n="sit.solo">혼밥 🧍</button>
+                    <button class="filter-btn" data-value="together" data-i18n="sit.together">같이 먹기 👨‍👩‍👧</button>
+                    <button class="filter-btn" data-value="delivery" data-i18n="sit.delivery">배달 🛵</button>
+                    <button class="filter-btn" data-value="dine-out" data-i18n="sit.dineOut">외식 🚶</button>
                 </div>
             </div>
         </div>
@@ -42,7 +45,7 @@
             <div class="result-card" id="result-card">
                 <div class="card-placeholder" id="card-placeholder">
                     <span class="question-mark">?</span>
-                    <p>버튼을 눌러<br>오늘 저녁을 결정하세요!</p>
+                    <p data-i18n="placeholderText">버튼을 눌러<br>오늘 저녁을 결정하세요!</p>
                 </div>
                 <div class="card-result hidden" id="card-result">
                     <div class="food-emoji" id="food-emoji"></div>
@@ -54,16 +57,12 @@
         </div>
 
         <div class="action-buttons">
-            <button id="pick-btn" class="pick-btn">
-                🎲 메뉴 뽑기!
-            </button>
-            <button id="reroll-btn" class="reroll-btn hidden">
-                🔄 다시 뽑기
-            </button>
+            <button id="pick-btn" class="pick-btn" data-i18n="pickBtn">🎲 메뉴 뽑기!</button>
+            <button id="reroll-btn" class="reroll-btn hidden" data-i18n="rerollBtn">🔄 다시 뽑기</button>
         </div>
 
         <div class="history hidden" id="history">
-            <p class="history-title">최근 추천 기록</p>
+            <p class="history-title" data-i18n="historyTitle">최근 추천 기록</p>
             <div id="history-list"></div>
         </div>
     </div>

@@ -62,14 +62,21 @@ body {
     transition: background 0.3s;
 }
 
-.theme-toggle {
+.top-controls {
     position: fixed;
     top: 1rem;
     right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 100;
+}
+
+.ctrl-btn {
     background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.5);
     color: white;
-    font-size: 1.3rem;
+    font-size: 1rem;
+    font-weight: 700;
     width: 2.8rem;
     height: 2.8rem;
     border-radius: 50%;
@@ -78,15 +85,19 @@ body {
     justify-content: center;
     align-items: center;
     transition: all 0.3s;
-    z-index: 100;
     backdrop-filter: blur(4px);
+    font-family: inherit;
+    letter-spacing: 0.03em;
 }
 
-.theme-toggle:hover {
+.ctrl-btn:hover {
     background: rgba(255, 255, 255, 0.35);
     border-color: white;
     transform: scale(1.1);
 }
+
+/* keep old selector working for JS that references themeToggle */
+.theme-toggle { font-size: 1.3rem; }
 
 .container {
     background: var(--container-bg);
