@@ -3,17 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 생성기</title>
+    <title>오늘 저녁 뭐 먹지?</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <button id="theme-toggle" class="theme-toggle" title="다크/라이트 모드 전환">🌙</button>
+
     <div class="container">
-        <h1>🎱 로또 번호 생성기</h1>
-        <p>버튼을 눌러 행운의 번호를 뽑아보세요!</p>
-        <button id="generate-btn">번호 생성</button>
-        <div id="lotto-numbers" class="lotto-numbers"></div>
+        <h1>🍽️ 오늘 저녁 뭐 먹지?</h1>
+        <p class="subtitle">고민 끝! 메뉴를 골라드릴게요</p>
+
+        <div class="filters">
+            <div class="filter-group">
+                <span class="filter-label">카테고리</span>
+                <div class="filter-buttons" id="category-filters">
+                    <button class="filter-btn active" data-value="all">전체</button>
+                    <button class="filter-btn" data-value="korean">한식 🇰🇷</button>
+                    <button class="filter-btn" data-value="chinese">중식 🥢</button>
+                    <button class="filter-btn" data-value="japanese">일식 🍱</button>
+                    <button class="filter-btn" data-value="western">양식 🍝</button>
+                    <button class="filter-btn" data-value="snack">분식 🍢</button>
+                    <button class="filter-btn" data-value="chicken">치킨/피자 🍕</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">상황</span>
+                <div class="filter-buttons" id="situation-filters">
+                    <button class="filter-btn active" data-value="all">전체</button>
+                    <button class="filter-btn" data-value="solo">혼밥 🧍</button>
+                    <button class="filter-btn" data-value="together">같이 먹기 👨‍👩‍👧</button>
+                    <button class="filter-btn" data-value="delivery">배달 🛵</button>
+                    <button class="filter-btn" data-value="dine-out">외식 🚶</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-area">
+            <div class="result-card" id="result-card">
+                <div class="card-placeholder" id="card-placeholder">
+                    <span class="question-mark">?</span>
+                    <p>버튼을 눌러<br>오늘 저녁을 결정하세요!</p>
+                </div>
+                <div class="card-result hidden" id="card-result">
+                    <div class="food-emoji" id="food-emoji"></div>
+                    <div class="food-name" id="food-name"></div>
+                    <div class="food-tags" id="food-tags"></div>
+                    <div class="food-desc" id="food-desc"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button id="pick-btn" class="pick-btn">
+                🎲 메뉴 뽑기!
+            </button>
+            <button id="reroll-btn" class="reroll-btn hidden">
+                🔄 다시 뽑기
+            </button>
+        </div>
+
+        <div class="history hidden" id="history">
+            <p class="history-title">최근 추천 기록</p>
+            <div id="history-list"></div>
+        </div>
     </div>
+
     <script src="main.js"></script>
 </body>
 </html>

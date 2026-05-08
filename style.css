@@ -1,40 +1,64 @@
 :root {
-    --bg-gradient: linear-gradient(to right, #6a11cb, #2575fc);
+    --bg-gradient: linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%);
     --container-bg: #ffffff;
-    --text-color: #333333;
-    --title-color: #2575fc;
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --btn-bg: #2575fc;
-    --btn-hover: #6a11cb;
-    --btn-shadow: rgba(37, 117, 252, 0.5);
-    --btn-hover-shadow: rgba(106, 17, 203, 0.5);
-    --separator-color: #aaaaaa;
-    --bonus-label-color: #888888;
+    --text-color: #1f2937;
+    --subtitle-color: #6b7280;
+    --title-color: #ef4444;
+    --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    --btn-bg: linear-gradient(135deg, #f97316, #ef4444);
+    --btn-shadow: rgba(239, 68, 68, 0.4);
+    --filter-bg: #f3f4f6;
+    --filter-active-bg: #ef4444;
+    --filter-active-text: #ffffff;
+    --filter-text: #374151;
+    --card-bg: #fff7ed;
+    --card-border: #fed7aa;
+    --history-bg: #fef2f2;
+    --history-border: #fecaca;
+    --reroll-bg: #f3f4f6;
+    --reroll-color: #374151;
+    --tag-bg: #fee2e2;
+    --tag-color: #dc2626;
 }
 
 body.dark-mode {
-    --bg-gradient: linear-gradient(to right, #1a1a2e, #16213e);
-    --container-bg: #1e1e2e;
-    --text-color: #e0e0e0;
-    --title-color: #7aa2f7;
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    --btn-bg: #7aa2f7;
-    --btn-hover: #bb9af7;
-    --btn-shadow: rgba(122, 162, 247, 0.4);
-    --btn-hover-shadow: rgba(187, 154, 247, 0.4);
-    --separator-color: #555555;
-    --bonus-label-color: #aaaaaa;
+    --bg-gradient: linear-gradient(135deg, #1c1917 0%, #1e1b4b 100%);
+    --container-bg: #1f2937;
+    --text-color: #f9fafb;
+    --subtitle-color: #9ca3af;
+    --title-color: #fb923c;
+    --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    --btn-bg: linear-gradient(135deg, #ea580c, #dc2626);
+    --btn-shadow: rgba(234, 88, 12, 0.4);
+    --filter-bg: #374151;
+    --filter-active-bg: #ea580c;
+    --filter-active-text: #ffffff;
+    --filter-text: #d1d5db;
+    --card-bg: #292524;
+    --card-border: #44403c;
+    --history-bg: #1c1917;
+    --history-border: #44403c;
+    --reroll-bg: #374151;
+    --reroll-color: #e5e7eb;
+    --tag-bg: #431407;
+    --tag-color: #fb923c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
     background: var(--bg-gradient);
     color: var(--text-color);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    align-items: flex-start;
+    padding: 4rem 1rem 2rem;
     transition: background 0.3s;
 }
 
@@ -42,7 +66,7 @@ body {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    background: none;
+    background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.5);
     color: white;
     font-size: 1.3rem;
@@ -53,103 +77,295 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: border-color 0.3s, background 0.3s;
+    transition: all 0.3s;
     z-index: 100;
+    backdrop-filter: blur(4px);
 }
 
 .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.35);
     border-color: white;
+    transform: scale(1.1);
 }
 
 .container {
-    text-align: center;
     background: var(--container-bg);
     padding: 2rem;
-    border-radius: 10px;
+    border-radius: 24px;
     box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 600px;
     transition: background 0.3s, box-shadow 0.3s;
 }
 
 h1 {
     color: var(--title-color);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 0.4rem;
 }
 
-p {
-    color: var(--text-color);
+.subtitle {
+    color: var(--subtitle-color);
+    text-align: center;
+    margin-bottom: 1.8rem;
+    font-size: 0.95rem;
 }
 
-#generate-btn {
-    background-color: var(--btn-bg);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 15px var(--btn-shadow);
-}
-
-#generate-btn:hover {
-    background-color: var(--btn-hover);
-    box-shadow: 0 6px 20px var(--btn-hover-shadow);
-}
-
-.lotto-numbers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-}
-
-.lotto-ball {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
-}
-
-.lotto-ball:hover {
-    transform: scale(1.1);
-}
-
-.separator {
+.filters {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--subtitle-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: none;
+    background: var(--filter-bg);
+    color: var(--filter-text);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.filter-btn:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.filter-btn.active {
+    background: var(--filter-active-bg);
+    color: var(--filter-active-text);
+    font-weight: 600;
+    box-shadow: 0 2px 8px var(--btn-shadow);
+}
+
+.result-area {
+    margin-bottom: 1.5rem;
+}
+
+.result-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    min-height: 220px;
+    display: flex;
     align-items: center;
-    gap: 2px;
-    color: var(--separator-color);
-    font-size: 1.5rem;
-    font-weight: bold;
+    justify-content: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card.revealed {
+    border-color: var(--filter-active-bg);
+    box-shadow: 0 0 0 3px var(--btn-shadow);
+}
+
+.card-placeholder {
+    text-align: center;
+    color: var(--subtitle-color);
+}
+
+.question-mark {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 0.8rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes spin-in {
+    0% { transform: rotateY(90deg) scale(0.8); opacity: 0; }
+    60% { transform: rotateY(-10deg) scale(1.05); opacity: 1; }
+    100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+.card-result {
+    text-align: center;
+    width: 100%;
+    animation: spin-in 0.5s ease-out;
+}
+
+.card-result.hidden,
+.card-placeholder.hidden {
+    display: none;
+}
+
+.food-emoji {
+    font-size: 4.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
     line-height: 1;
 }
 
-.bonus-wrapper {
+.food-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--title-color);
+    margin-bottom: 0.8rem;
+}
+
+.food-tags {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.7rem;
+}
+
+.tag {
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+}
+
+.food-desc {
+    color: var(--subtitle-color);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.action-buttons {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
-.bonus-label {
-    font-size: 0.65rem;
-    font-weight: bold;
-    color: var(--bonus-label-color);
-    letter-spacing: 1px;
+.pick-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--btn-bg);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px var(--btn-shadow);
+    font-family: inherit;
+    letter-spacing: 0.03em;
+}
+
+.pick-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px var(--btn-shadow);
+}
+
+.pick-btn:active {
+    transform: translateY(0);
+    animation: shake 0.3s ease;
+}
+
+.reroll-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--reroll-bg);
+    color: var(--reroll-color);
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.reroll-btn:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.history {
+    background: var(--history-bg);
+    border: 1px solid var(--history-border);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+}
+
+.history-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--subtitle-color);
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
 }
 
-.lotto-ball.bonus {
-    border: 3px solid #ffd700;
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.2);
+#history-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.history-item {
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    font-size: 0.85rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 3.5rem 0.75rem 1.5rem;
+    }
+    .container {
+        padding: 1.5rem 1.2rem;
+    }
+    h1 {
+        font-size: 1.6rem;
+    }
+    .food-emoji {
+        font-size: 3.5rem;
+    }
+    .food-name {
+        font-size: 1.5rem;
+    }
 }
