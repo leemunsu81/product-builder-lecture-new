@@ -30,6 +30,17 @@
             </ul>
         </div>
 
+        <div class="location-input-wrap">
+            <label class="filter-label" for="location-input" data-i18n="locationLabel">📍 내 동네</label>
+            <div class="location-row">
+                <input type="text" id="location-input" class="location-input"
+                    placeholder="예: 강남구, 홍대, 부산 해운대"
+                    data-placeholder-ko="예: 강남구, 홍대, 부산 해운대"
+                    data-placeholder-en="e.g. Gangnam, Hongdae, Busan"
+                    maxlength="40">
+            </div>
+        </div>
+
         <div class="filters">
             <div class="filter-group">
                 <span class="filter-label" data-i18n="categoryLabel">카테고리</span>
@@ -76,7 +87,7 @@
 
         <div class="action-buttons">
             <button id="pick-btn" class="pick-btn" data-i18n="pickBtn">🎲 메뉴 뽑기!</button>
-            <button id="reroll-btn" class="reroll-btn hidden" data-i18n="rerollBtn">🔄 다시 뽑기</button>
+            <button id="restaurant-btn" class="restaurant-btn hidden" data-i18n="restaurantBtn">📍 근처 맛집 찾기</button>
         </div>
 
         <div style="margin: 1.5rem 0; text-align: center; min-height: 90px;">

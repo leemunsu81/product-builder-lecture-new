@@ -13,6 +13,9 @@ const STRINGS = {
         rpsLinkDesc: 'AI로 내 얼굴상 분석하기 →',
         noResult: '해당 없음',
         noResultDesc: '조건을 바꿔서 다시 시도해보세요!',
+        locationLabel: '📍 내 동네',
+        restaurantBtn: '📍 근처 맛집 찾기',
+        restaurantAlert: '동네를 입력하면 더 정확한 맛집을 찾을 수 있어요!\n(입력 없이도 검색됩니다)',
         recommendTitle: '✅ 이런 분들에게 추천해요',
         recommend1: '🤔 매일 저녁마다 "뭐 먹지?" 고민하는 분',
         recommend2: '👨‍👩‍👧 가족·친구와 메뉴 결정으로 실랑이하는 분',
@@ -43,6 +46,9 @@ const STRINGS = {
         rpsLinkDesc: 'Analyze your face vibe with AI →',
         noResult: 'No Match',
         noResultDesc: 'Try changing the filters!',
+        locationLabel: '📍 My Neighborhood',
+        restaurantBtn: '📍 Find Nearby Restaurants',
+        restaurantAlert: 'Enter your neighborhood for better results!\n(You can also search without it)',
         recommendTitle: '✅ Recommended For You',
         recommend1: '🤔 Anyone who asks "What\'s for dinner?" every single day',
         recommend2: '👨‍👩‍👧 Families or friends who can\'t agree on a meal',
@@ -280,12 +286,21 @@ const history = [];
 const themeToggle = document.getElementById('theme-toggle');
 const langToggle = document.getElementById('lang-toggle');
 const pickBtn = document.getElementById('pick-btn');
-const rerollBtn = document.getElementById('reroll-btn');
+const restaurantBtn = document.getElementById('restaurant-btn');
+const locationInput = document.getElementById('location-input');
 const cardPlaceholder = document.getElementById('card-placeholder');
 const cardResult = document.getElementById('card-result');
 const resultCard = document.getElementById('result-card');
 const historyEl = document.getElementById('history');
 const historyList = document.getElementById('history-list');
+
+// persist location across sessions
+if (localStorage.getItem('location')) {
+    locationInput.value = localStorage.getItem('location');
+}
+locationInput.addEventListener('input', () => {
+    localStorage.setItem('location', locationInput.value);
+});
 
 // --- Theme ---
 if (localStorage.getItem('theme') === 'dark') {
@@ -309,6 +324,10 @@ function applyLang() {
         const key = el.dataset.i18n;
         if (s[key] !== undefined) el.innerHTML = s[key];
     });
+
+    const phKo = locationInput.dataset.placeholderKo;
+    const phEn = locationInput.dataset.placeholderEn;
+    locationInput.placeholder = lang === 'ko' ? phKo : phEn;
 
     if (lastMenu) showResult(lastMenu, false);
     if (history.length) renderHistory();
@@ -389,7 +408,7 @@ function showResult(menu, animate) {
         recipeSection.style.display = 'none';
     }
 
-    rerollBtn.classList.remove('hidden');
+    restaurantBtn.classList.remove('hidden');
 }
 
 function renderHistory() {
@@ -406,6 +425,13 @@ function addHistory(menu) {
 }
 
 pickBtn.addEventListener('click', pickMenu);
-rerollBtn.addEventListener('click', pickMenu);
+
+restaurantBtn.addEventListener('click', () => {
+    if (!lastMenu) return;
+    const menuName = lang === 'ko' ? lastMenu.name : lastMenu.nameEn;
+    const location = locationInput.value.trim();
+    const query = location ? `${location} ${menuName} 맛집` : `${menuName} 맛집`;
+    window.open(`https://map.naver.com/p/search/${encodeURIComponent(query)}`, '_blank');
+});
 
 applyLang();
