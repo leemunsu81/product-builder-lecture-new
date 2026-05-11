@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-1196075023394827">
+    <meta name="description" content="오늘의 선택 — 저녁 메뉴 랜덤 추천과 AI 얼굴 인상 분석 서비스를 제공하는 일상 결정 도우미 서비스입니다.">
+    <title>서비스 소개 — 오늘의 선택</title>
+    <link rel="stylesheet" href="style.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1196075023394827"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="top-controls">
+        <button id="theme-toggle" class="ctrl-btn" title="Toggle Theme">🌙</button>
+    </div>
+
+    <div class="page-container">
+        <a href="./" class="page-back">← 홈으로</a>
+
+        <div class="page-header">
+            <h1 style="color: var(--title-color);">🍽️ 오늘의 선택 소개</h1>
+            <p>일상의 작은 고민을 대신 해결해드립니다</p>
+        </div>
+
+        <div class="page-section">
+            <h2>서비스 소개</h2>
+            <p>
+                <strong>오늘의 선택</strong>은 매일 반복되는 소소한 결정들을 빠르고 재미있게 도와드리는 서비스입니다.
+                "오늘 저녁 뭐 먹지?"처럼 누구나 하루에 한 번쯤 겪는 고민에서 출발했습니다.
+                단순한 무작위 선택이 아닌, 상황과 취향에 맞는 필터를 통해 실제로 도움이 되는 추천을 목표로 합니다.
+            </p>
+        </div>
+
+        <div class="page-section">
+            <h2>제공 서비스</h2>
+            <ul>
+                <li>
+                    <strong>🍽️ 저녁 메뉴 랜덤 추천</strong><br>
+                    한식·중식·일식·양식·분식·치킨피자 카테고리와 혼밥·같이 먹기·배달·외식 상황을 조합해
+                    딱 맞는 저녁 메뉴를 1초 만에 뽑아드립니다. 메뉴마다 간단한 설명과 어울리는 상황 태그도 함께 제공합니다.
+                </li>
+                <li style="margin-top: 0.8rem;">
+                    <strong>✊ AI 얼굴 인상 분석기</strong><br>
+                    TensorFlow.js 기반의 실시간 AI 모델이 카메라로 얼굴을 분석해
+                    바위상·가위상·보상 중 어떤 인상인지 알려드립니다.
+                    모든 분석은 기기 내에서 이루어지며 데이터는 서버로 전송되지 않습니다.
+                </li>
+            </ul>
+        </div>
+
+        <div class="page-section">
+            <h2>서비스 특징</h2>
+            <ul>
+                <li>🚀 <strong>빠른 결정</strong> — 버튼 한 번으로 즉시 결과를 제공합니다.</li>
+                <li>🎯 <strong>상황별 필터</strong> — 혼밥·배달·외식 등 상황에 맞게 메뉴를 좁혀드립니다.</li>
+                <li>🌙 <strong>다크 모드 지원</strong> — 눈이 편한 다크 모드를 지원합니다.</li>
+                <li>🌏 <strong>한국어·영어 지원</strong> — 두 가지 언어로 이용할 수 있습니다.</li>
+                <li>📱 <strong>모바일 최적화</strong> — 스마트폰에서도 편리하게 사용할 수 있습니다.</li>
+                <li>🔒 <strong>개인정보 보호</strong> — 카메라 데이터를 포함한 어떤 개인정보도 서버에 저장하지 않습니다.</li>
+            </ul>
+        </div>
+
+        <div class="page-section">
+            <h2>앞으로의 계획</h2>
+            <p>
+                현재 저녁 메뉴 추천과 얼굴 인상 분석 서비스를 운영 중이며,
+                앞으로도 일상의 다양한 결정을 도와드리는 기능을 추가해 나갈 예정입니다.
+                서비스 이용 중 불편한 점이나 건의사항이 있으시면 <a href="./contact">문의하기</a> 페이지로 알려주세요.
+            </p>
+        </div>
+
+        <div style="margin: 1.5rem 0; text-align: center; min-height: 90px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1196075023394827"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <footer class="site-footer">
+            <nav>
+                <a href="./">홈</a>
+                <a href="./about">서비스 소개</a>
+                <a href="./contact">문의하기</a>
+                <a href="./privacy">개인정보처리방침</a>
+            </nav>
+            <p>© 2025 오늘의 선택. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const themeBtn = document.getElementById('theme-toggle');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeBtn.textContent = '☀️';
+        }
+        themeBtn.addEventListener('click', () => {
+            const d = document.body.classList.toggle('dark-mode');
+            themeBtn.textContent = d ? '☀️' : '🌙';
+            localStorage.setItem('theme', d ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>

@@ -413,6 +413,206 @@ body.dark-mode #disqus_thread {
     color-scheme: dark;
 }
 
+/* ── Site Footer ── */
+.site-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--history-border);
+    text-align: center;
+}
+
+.site-footer nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.site-footer nav a {
+    font-size: 0.82rem;
+    color: var(--subtitle-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.site-footer nav a:hover {
+    color: var(--title-color);
+}
+
+.site-footer p {
+    font-size: 0.75rem;
+    color: var(--subtitle-color);
+    opacity: 0.7;
+}
+
+/* ── Info Section ── */
+.info-section {
+    background: var(--filter-bg);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-section h2 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.02em;
+}
+
+.info-section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.info-section ul li {
+    font-size: 0.85rem;
+    color: var(--subtitle-color);
+    padding-left: 0.1rem;
+}
+
+.step-list {
+    counter-reset: steps;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.step-list li {
+    counter-increment: steps;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--subtitle-color);
+}
+
+.step-list li::before {
+    content: counter(steps);
+    background: var(--filter-active-bg);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+}
+
+/* ── Static pages (about, contact, privacy) ── */
+.page-container {
+    background: var(--container-bg);
+    padding: 2rem;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 680px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.page-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--subtitle-color);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: var(--filter-bg);
+    border: 1px solid var(--history-border);
+    transition: all 0.2s;
+}
+
+.page-back:hover { opacity: 0.75; transform: translateX(-2px); }
+
+.page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--history-border);
+}
+
+.page-header h1 {
+    font-size: 1.6rem;
+    text-align: left;
+    margin-bottom: 0.4rem;
+}
+
+.page-header p {
+    font-size: 0.9rem;
+    color: var(--subtitle-color);
+}
+
+.page-section {
+    margin-bottom: 1.8rem;
+}
+
+.page-section h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 0.7rem;
+    padding-left: 0.7rem;
+    border-left: 3px solid var(--filter-active-bg);
+}
+
+.page-section p, .page-section li {
+    font-size: 0.9rem;
+    color: var(--subtitle-color);
+    line-height: 1.75;
+}
+
+.page-section ul {
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.contact-card {
+    background: var(--filter-bg);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.contact-row span:first-child {
+    font-size: 1.3rem;
+    width: 2rem;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.contact-row a {
+    color: var(--title-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contact-row a:hover { text-decoration: underline; }
+
 @media (max-width: 480px) {
     body {
         padding: 3.5rem 0.75rem 1.5rem;
@@ -428,5 +628,8 @@ body.dark-mode #disqus_thread {
     }
     .food-name {
         font-size: 1.5rem;
+    }
+    .page-container {
+        padding: 1.5rem 1.2rem;
     }
 }
