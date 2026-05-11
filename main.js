@@ -14,6 +14,8 @@ const STRINGS = {
         noResult: '해당 없음',
         noResultDesc: '조건을 바꿔서 다시 시도해보세요!',
         locationLabel: '📍 내 동네',
+        locateBtn: '📍 현재 위치',
+        detectingLocation: '📍 위치 감지 중...',
         restaurantBtn: '📍 근처 맛집 찾기',
         restaurantAlert: '동네를 입력하면 더 정확한 맛집을 찾을 수 있어요!\n(입력 없이도 검색됩니다)',
         recommendTitle: '✅ 이런 분들에게 추천해요',
@@ -47,6 +49,8 @@ const STRINGS = {
         noResult: 'No Match',
         noResultDesc: 'Try changing the filters!',
         locationLabel: '📍 My Neighborhood',
+        locateBtn: '📍 Use Location',
+        detectingLocation: '📍 Detecting...',
         restaurantBtn: '📍 Find Nearby Restaurants',
         restaurantAlert: 'Enter your neighborhood for better results!\n(You can also search without it)',
         recommendTitle: '✅ Recommended For You',
@@ -288,6 +292,7 @@ const langToggle = document.getElementById('lang-toggle');
 const pickBtn = document.getElementById('pick-btn');
 const restaurantBtn = document.getElementById('restaurant-btn');
 const locationInput = document.getElementById('location-input');
+const locateBtn = document.getElementById('locate-btn');
 const cardPlaceholder = document.getElementById('card-placeholder');
 const cardResult = document.getElementById('card-result');
 const resultCard = document.getElementById('result-card');
@@ -424,12 +429,62 @@ function addHistory(menu) {
     renderHistory();
 }
 
+async function getNeighborhood() {
+    return new Promise((resolve) => {
+        if (!navigator.geolocation) { resolve(''); return; }
+        navigator.geolocation.getCurrentPosition(
+            async (pos) => {
+                try {
+                    const { latitude: lat, longitude: lng } = pos.coords;
+                    const res = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ko`,
+                        { headers: { 'Accept-Language': 'ko' } }
+                    );
+                    const data = await res.json();
+                    const addr = data.address || {};
+                    const area = addr.suburb || addr.city_district || addr.borough || addr.town || addr.city || '';
+                    resolve(area);
+                } catch { resolve(''); }
+            },
+            () => resolve(''),
+            { timeout: 8000 }
+        );
+    });
+}
+
 pickBtn.addEventListener('click', pickMenu);
 
-restaurantBtn.addEventListener('click', () => {
+locateBtn.addEventListener('click', async () => {
+    const s = STRINGS[lang];
+    locateBtn.textContent = s.detectingLocation;
+    locateBtn.disabled = true;
+    const area = await getNeighborhood();
+    if (area) {
+        locationInput.value = area;
+        localStorage.setItem('location', area);
+    }
+    locateBtn.innerHTML = s.locateBtn;
+    locateBtn.disabled = false;
+});
+
+restaurantBtn.addEventListener('click', async () => {
     if (!lastMenu) return;
     const menuName = lang === 'ko' ? lastMenu.name : lastMenu.nameEn;
-    const location = locationInput.value.trim();
+    let location = locationInput.value.trim();
+
+    if (!location) {
+        const s = STRINGS[lang];
+        restaurantBtn.textContent = s.detectingLocation;
+        restaurantBtn.disabled = true;
+        location = await getNeighborhood();
+        if (location) {
+            locationInput.value = location;
+            localStorage.setItem('location', location);
+        }
+        restaurantBtn.innerHTML = s.restaurantBtn;
+        restaurantBtn.disabled = false;
+    }
+
     const query = location ? `${location} ${menuName} 맛집` : `${menuName} 맛집`;
     window.open(`https://map.naver.com/p/search/${encodeURIComponent(query)}`, '_blank');
 });
