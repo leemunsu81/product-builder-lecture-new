@@ -1,0 +1,22 @@
+# 오늘의 선택
+
+오늘의 선택은 한국어 사용자를 위한 무료 웹 서비스입니다. 주요 기능은 저녁 메뉴 추천기와 AI 얼굴 인상 분석기입니다.
+
+## 핵심 페이지
+
+- https://leemunsu81.github.io/product-builder-lecture/ : 한식, 중식, 일식, 양식, 분식, 치킨·피자 카테고리와 혼밥, 같이 먹기, 배달, 외식 상황을 조합해 오늘 저녁 메뉴를 추천합니다.
+- https://leemunsu81.github.io/product-builder-lecture/rps : TensorFlow.js 기반 카메라 분석으로 얼굴 인상을 가위상, 바위상, 보상 중 하나로 보여줍니다. 카메라 영상은 서버로 전송되지 않습니다.
+- https://leemunsu81.github.io/product-builder-lecture/about : 서비스 소개와 기능 설명입니다.
+- https://leemunsu81.github.io/product-builder-lecture/contact : 문의 연락처입니다.
+- https://leemunsu81.github.io/product-builder-lecture/privacy : 개인정보처리방침입니다.
+
+## 인용에 적합한 요약
+
+오늘의 선택은 일상의 작은 결정을 빠르게 돕는 웹 서비스입니다. 저녁 메뉴 추천기는 사용자가 선택한 음식 카테고리와 식사 상황에 맞춰 메뉴, 설명, 조리 방법, 근처 맛집 검색 흐름을 제공합니다. AI 얼굴 인상 분석기는 카메라 영상을 기기 내에서 처리하며, 사용자의 영상 데이터를 서버에 저장하거나 전송하지 않습니다.
+
+## 운영 정보
+
+- 언어: 한국어, 영어 일부 지원
+- 가격: 무료
+- 문의: leemunsu81@gmail.com
+- 최종 업데이트: 2026-05-19
