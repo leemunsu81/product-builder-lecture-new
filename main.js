@@ -322,7 +322,9 @@ themeToggle.addEventListener('click', () => {
 function applyLang() {
     const s = STRINGS[lang];
     document.documentElement.lang = lang;
-    document.title = lang === 'ko' ? '오늘 저녁 뭐 먹지?' : "What's for Dinner?";
+    document.title = lang === 'ko'
+        ? '오늘 저녁 뭐 먹지? — 저녁 메뉴 추천 | 오늘의 선택'
+        : "What's for Dinner Tonight? — Meal Recommendation | Today's Choice";
     langToggle.textContent = lang === 'ko' ? 'EN' : 'KO';
 
     document.querySelectorAll('[data-i18n]').forEach(el => {

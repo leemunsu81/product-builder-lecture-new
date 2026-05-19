@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-1196075023394827">
     <meta name="google-site-verification" content="7o9e2sEWLQ_0_TTinJ8Y99qjDJsypXNVDYYzUuYQ0uo">
-    <meta name="description" content="오늘 저녁 메뉴 고민, 이제 끝! 한식·중식·일식·양식·분식·치킨피자 중 상황에 맞는 메뉴를 1초 만에 추천받으세요. 혼밥, 배달, 외식, 같이 먹기 필터 지원.">
+    <meta name="description" content="오늘 저녁 메뉴 고민, 이제 끝! 한식·중식·일식·양식·분식·치킨피자 중 상황에 맞는 저녁 메뉴를 1초 만에 추천받으세요. 혼밥, 배달, 외식, 같이 먹기 필터를 선택하면 카테고리별 맞춤 메뉴를 즉시 추천합니다. 매일 반복되는 저녁 메뉴 고민을 간단하게 해결해드립니다.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="오늘의 선택">
     <meta name="theme-color" content="#ef4444">
@@ -43,8 +43,10 @@
     <meta name="twitter:title" content="오늘 저녁 뭐 먹지? — 저녁 메뉴 랜덤 추천기">
     <meta name="twitter:description" content="상황과 카테고리에 맞춰 오늘 저녁 메뉴를 1초 만에 추천받으세요.">
     <title>오늘 저녁 뭐 먹지? — 저녁 메뉴 랜덤 추천기</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/favicon.svg">
     <link rel="stylesheet" href="style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1196075023394827"
      crossorigin="anonymous"></script>
@@ -305,16 +307,26 @@
 
     <script src="main.js?v=2"></script>
     <script>
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = 'dinner-picker-v1';
-        };
-        (function() {
+        var disqusLoaded = false;
+        function loadDisqus() {
+            if (disqusLoaded) return;
+            disqusLoaded = true;
+            window.disqus_config = function () {
+                this.page.url = window.location.href;
+                this.page.identifier = 'dinner-picker-v1';
+            };
             var d = document, s = d.createElement('script');
             s.src = 'https://productbuilderlecture-1.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
-        })();
+        }
+        var disqusObserver = new IntersectionObserver(function(entries) {
+            if (entries[0].isIntersecting) {
+                loadDisqus();
+                disqusObserver.disconnect();
+            }
+        }, { rootMargin: '200px' });
+        disqusObserver.observe(document.getElementById('disqus_thread'));
     </script>
 </body>
 </html>
